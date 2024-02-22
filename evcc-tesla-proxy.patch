@@ -1,0 +1,71 @@
+*** evcc/vehicle/tesla.go	2024-02-22 16:28:01.313113041 +0800
+--- evcc/vehicle/tesla.go.new	2024-02-22 16:28:48.235129400 +0800
+***************
+*** 8,14 ****
+  	"github.com/evcc-io/evcc/api"
+  	"github.com/evcc-io/evcc/util"
+  	"github.com/evcc-io/evcc/util/request"
+! 	"github.com/evcc-io/evcc/util/sponsor"
+  	"github.com/evcc-io/evcc/util/transport"
+  	"github.com/evcc-io/evcc/vehicle/tesla"
+  	teslaclient "github.com/evcc-io/tesla-proxy-client"
+--- 8,14 ----
+  	"github.com/evcc-io/evcc/api"
+  	"github.com/evcc-io/evcc/util"
+  	"github.com/evcc-io/evcc/util/request"
+! //	"github.com/evcc-io/evcc/util/sponsor"
+  	"github.com/evcc-io/evcc/util/transport"
+  	"github.com/evcc-io/evcc/vehicle/tesla"
+  	teslaclient "github.com/evcc-io/tesla-proxy-client"
+***************
+*** 110,124 ****
+  	}
+  
+  	if cc.Control {
+! 		if !sponsor.IsAuthorized() {
+! 			return nil, api.ErrSponsorRequired
+! 		}
+  
+  		// proxy client
+  		pc := request.NewClient(log)
+  		pc.Transport = &transport.Decorator{
+  			Decorator: transport.DecorateHeaders(map[string]string{
+! 				"X-Auth-Token": sponsor.Token,
+  			}),
+  			Base: hc.Transport,
+  		}
+--- 110,124 ----
+  	}
+  
+  	if cc.Control {
+! //		if !sponsor.IsAuthorized() {
+! //			return nil, api.ErrSponsorRequired
+! //		}
+  
+  		// proxy client
+  		pc := request.NewClient(log)
+  		pc.Transport = &transport.Decorator{
+  			Decorator: transport.DecorateHeaders(map[string]string{
+! 				"X-Auth-Token": "gibberish",
+  			}),
+  			Base: hc.Transport,
+  		}
+*** evcc/vehicle/tesla/controller.go	2024-02-22 16:28:01.313113041 +0800
+--- evcc/vehicle/tesla/controller.go.new	2024-02-22 16:29:09.908060673 +0800
+***************
+*** 8,14 ****
+  	"github.com/evcc-io/tesla-proxy-client"
+  )
+  
+! const ProxyBaseUrl = "https://tesla.evcc.io"
+  
+  type Controller struct {
+  	vehicle *tesla.Vehicle
+--- 8,14 ----
+  	"github.com/evcc-io/tesla-proxy-client"
+  )
+  
+! const ProxyBaseUrl = "https://<your proxy domain>"
+  
+  type Controller struct {
+  	vehicle *tesla.Vehicle
