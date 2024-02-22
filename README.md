@@ -4,7 +4,7 @@ This repo contains a script to build an [EVCC](https://evcc.io) container that u
 
 Please see the [EVCC documentation](https://docs.evcc.io/en/docs/installation/docker) for instructions on running the container.
 
-You may wish to review my other repos:
+You may wish to review my other repos for complimentary tools for developing an app to integrate with Tesla:
 - [tesla-http-proxy](https://github.com/speedst3r/tesla-http-proxy) - Dockerfile to build a container that executes the Tesla REST API proxy
 - [teslatoken](https://github.com/speedst3r/teslatoken) - simple Python app to handle redirection to Tesla for user authorisation and code exchange for OAuth tokens
 
