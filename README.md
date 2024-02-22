@@ -12,4 +12,5 @@ You may wish to review my other repos:
 
 1. Add your Tesla application client ID to the shell script in this repository, and set the image name you would like to use for the built container (e.g. if you want to push it to a private repository)
 1. Edit the patch file, the patch for vehicle/tesla/controller.go specifies the base domain name for your own Tesla REST API proxy.
-
+1. Run the `build-evcc.sh` script
+1. Use the built image in your container hosting solution
