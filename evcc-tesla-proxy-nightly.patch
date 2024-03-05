@@ -1,0 +1,126 @@
+*** evcc/vehicle/tesla.go	2024-02-24 08:34:28.285811074 +0800
+--- evcc/vehicle/tesla.go.new	2024-02-24 08:36:39.811461111 +0800
+***************
+*** 8,14 ****
+  	"github.com/evcc-io/evcc/api"
+  	"github.com/evcc-io/evcc/util"
+  	"github.com/evcc-io/evcc/util/request"
+! 	"github.com/evcc-io/evcc/util/sponsor"
+  	"github.com/evcc-io/evcc/util/transport"
+  	"github.com/evcc-io/evcc/vehicle/tesla"
+  	teslaclient "github.com/evcc-io/tesla-proxy-client"
+--- 8,14 ----
+  	"github.com/evcc-io/evcc/api"
+  	"github.com/evcc-io/evcc/util"
+  	"github.com/evcc-io/evcc/util/request"
+! //	"github.com/evcc-io/evcc/util/sponsor"
+  	"github.com/evcc-io/evcc/util/transport"
+  	"github.com/evcc-io/evcc/vehicle/tesla"
+  	teslaclient "github.com/evcc-io/tesla-proxy-client"
+***************
+*** 98,104 ****
+  	pc := request.NewClient(log)
+  	pc.Transport = &transport.Decorator{
+  		Decorator: transport.DecorateHeaders(map[string]string{
+! 			"X-Auth-Token": sponsor.Token,
+  		}),
+  		Base: hc.Transport,
+  	}
+--- 98,104 ----
+  	pc := request.NewClient(log)
+  	pc.Transport = &transport.Decorator{
+  		Decorator: transport.DecorateHeaders(map[string]string{
+! 			"X-Auth-Token": "gibberish",
+  		}),
+  		Base: hc.Transport,
+  	}
+*** evcc/vehicle/tesla/controller.go	2024-02-24 08:34:28.285811074 +0800
+--- evcc/vehicle/tesla/controller.go.new	2024-02-24 08:37:31.033663961 +0800
+***************
+*** 5,15 ****
+  	"slices"
+  
+  	"github.com/evcc-io/evcc/api"
+! 	"github.com/evcc-io/evcc/util/sponsor"
+  	"github.com/evcc-io/tesla-proxy-client"
+  )
+  
+! const ProxyBaseUrl = "https://tesla.evcc.io"
+  
+  type Controller struct {
+  	vehicle *tesla.Vehicle
+--- 5,15 ----
+  	"slices"
+  
+  	"github.com/evcc-io/evcc/api"
+! //	"github.com/evcc-io/evcc/util/sponsor"
+  	"github.com/evcc-io/tesla-proxy-client"
+  )
+  
+! const ProxyBaseUrl = "https://your.tesla.proxy"
+  
+  type Controller struct {
+  	vehicle *tesla.Vehicle
+***************
+*** 27,35 ****
+  
+  // StartCharge implements the api.VehicleChargeController interface
+  func (v *Controller) MaxCurrent(current int64) error {
+! 	if !sponsor.IsAuthorized() {
+! 		return api.ErrSponsorRequired
+! 	}
+  
+  	return apiError(v.vehicle.SetChargingAmps(int(current)))
+  }
+--- 27,35 ----
+  
+  // StartCharge implements the api.VehicleChargeController interface
+  func (v *Controller) MaxCurrent(current int64) error {
+! //	if !sponsor.IsAuthorized() {
+! //		return api.ErrSponsorRequired
+! //	}
+  
+  	return apiError(v.vehicle.SetChargingAmps(int(current)))
+  }
+***************
+*** 38,46 ****
+  
+  // StartCharge implements the api.VehicleChargeController interface
+  func (v *Controller) StartCharge() error {
+! 	if !sponsor.IsAuthorized() {
+! 		return api.ErrSponsorRequired
+! 	}
+  
+  	err := apiError(v.vehicle.StartCharging())
+  	if err != nil && slices.Contains([]string{"complete", "is_charging"}, err.Error()) {
+--- 38,46 ----
+  
+  // StartCharge implements the api.VehicleChargeController interface
+  func (v *Controller) StartCharge() error {
+! //	if !sponsor.IsAuthorized() {
+! //		return api.ErrSponsorRequired
+! //	}
+  
+  	err := apiError(v.vehicle.StartCharging())
+  	if err != nil && slices.Contains([]string{"complete", "is_charging"}, err.Error()) {
+***************
+*** 51,59 ****
+  
+  // StopCharge implements the api.VehicleChargeController interface
+  func (v *Controller) StopCharge() error {
+! 	if !sponsor.IsAuthorized() {
+! 		return api.ErrSponsorRequired
+! 	}
+  
+  	err := apiError(v.vehicle.StopCharging())
+  
+--- 51,59 ----
+  
+  // StopCharge implements the api.VehicleChargeController interface
+  func (v *Controller) StopCharge() error {
+! //	if !sponsor.IsAuthorized() {
+! //		return api.ErrSponsorRequired
+! //	}
+  
+  	err := apiError(v.vehicle.StopCharging())
+  
