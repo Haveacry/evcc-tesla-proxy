@@ -2,7 +2,8 @@
 
 if [ "$1" == "" ];
 then
-	echo "Usage: build-evcc.sh nightly|latest"
+	echo "Usage: build-evcc.sh nightly|latest|<version>"
+	echo "Where version is in semver format, e.g. 0.125.0"
 	exit 1
 fi
 
@@ -10,13 +11,13 @@ CLIENT_ID=<YOUR TESLA CLIENT ID>
 IMAGE_NAME=<registry location>/evcc
 
 case $1 in
-	"nightly")
+	nightly)
 		EVCC_VERSION=nightly
 		NIGHTLYVER=`date +"%Y%m%d"`
 		DOCKER_IMG_TAGS="-t ${IMAGE_NAME}:nightly -t ${IMAGE_NAME}:nightly-${NIGHTLYVER}"
 		BRANCH=master
 		;;
-	"latest")
+	latest)
 		CURRENT_VER=`cat .evcclatest`
 		EVCC_VERSION=`curl -s https://api.github.com/repos/evcc-io/evcc/releases/latest | jq -r '.tag_name'`
 		BRANCH=${EVCC_VERSION}
@@ -28,8 +29,14 @@ case $1 in
 			exit 1
 		fi
 		;;
+	0.*)
+		EVCC_VERSION=$1
+		BRANCH=${EVCC_VERSION}
+		DOCKER_IMG_TAGS="--build-arg RELEASE=1 -t ${IMAGE_NAME}:${EVCC_VERSION}"
+		;;
 	*)
-		echo "Usage: build-evcc.sh nightly|latest"
+		echo "Usage: build-evcc.sh nightly|latest|<version>"
+		echo "Where version is in semver format, e.g. 0.125.0"
 		exit 1
 		;;
 esac
@@ -41,14 +48,25 @@ fi
 
 git clone https://github.com/evcc-io/evcc --branch ${BRANCH}
 
+if [ $? -ne 0 ];
+then
+	echo "Unable to clone GitHub repository. Please check version is correct and there is connectivity to GitHub"
+	exit 1
+fi
+
 cd evcc
 
-if [ "${EVCC_VERSION}" == "0.124.4" ];
-then
-	PATCHFILE=evcc-tesla-proxy-0.124.4.patch
-else
-	PATCHFILE=evcc-tesla-proxy-nightly.patch
-fi
+case ${EVCC_VERSION} in
+	0.124.4)
+		PATCHFILE=evcc-tesla-proxy-0.124.4.patch
+		;;
+	0.124.5|0.124.6|0.124.7|0.124.8|0.124.9|0.124.10)
+		PATCHFILE=evcc-tesla-proxy-0.124.10.patch
+		;;
+	*)
+		PATCHFILE=evcc-tesla-proxy-nightly.patch
+		;;
+esac
 
 patch -p1 --ignore-whitespace < ../${PATCHFILE}
 
