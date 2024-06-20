@@ -26,6 +26,7 @@ jobs:
          repository: evcc-io/evcc
          ref: ${{ steps.getversion.outputs.evccversion }}
          path: evcc
+         token: ${{ secrets.PAT }}
 
 
      - name: Log in to the Container registry
