@@ -52,6 +52,4 @@ jobs:
        with:
          context: evcc/
          push: true
-         tags: 
-           - ${{ vars.REGISTRY }}/evcc:${{ steps.getversion.outputs.evccversion }}
-           - ${{ vars.REGISTRY }}/evcc:latest
+         tags: ${{ vars.REGISTRY }}/evcc:${{ steps.getversion.outputs.evccversion }},${{ vars.REGISTRY }}/evcc:latest
