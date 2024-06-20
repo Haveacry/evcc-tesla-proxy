@@ -23,6 +23,7 @@ jobs:
      - name: Checkout evcc repository
        uses: actions/checkout@v4
        with:
+         repository: evcc-io/evcc
          ref: ${{ steps.getversion.outputs.evccversion }}
          path: evcc
 
