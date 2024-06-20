@@ -51,6 +51,11 @@ jobs:
      - name: Build and push Docker image
        uses: docker/build-push-action@v5
        with:
+         build-args: |
+           RELEASE=1
+           TESLA_CLIENT_ID=${{ secrets.TESLA_CLIENT_ID }}
          context: evcc/
          push: true
-         tags: ${{ vars.REGISTRY }}/evcc:${{ steps.getversion.outputs.evccversion }},${{ vars.REGISTRY }}/evcc:latest
+         tags: |
+           ${{ vars.REGISTRY }}/evcc:${{ steps.getversion.outputs.evccversion }}
+           ${{ vars.REGISTRY }}/evcc:latest
