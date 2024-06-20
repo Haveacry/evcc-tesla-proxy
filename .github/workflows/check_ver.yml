@@ -27,7 +27,7 @@ jobs:
       evccver: ${{ steps.evccversion.outputs.evccver }}
       localver: ${{ steps.localversion.outputs.localver }}
 
-  update_docker:
+  update_versionfile:
     runs-on: ubuntu-latest
     needs: check_version
     if: ${{ needs.check_version.outputs.evccver != needs.check_version.outputs.localver && needs.check_version.outputs.evccver != '' }}
