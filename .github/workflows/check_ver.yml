@@ -1,0 +1,48 @@
+name: check-evcc-version
+on:
+
+  workflow_dispatch:
+  schedule:
+    - cron: "0 * * * *"
+
+jobs:
+  check_version:
+    runs-on: default-linux
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: master
+          fetch-depth: 0
+      - name: Check EVCC release
+        id: evccversion
+        run: |
+          NEW_VER=$(curl -s https://api.github.com/repos/evcc-io/evcc/releases/latest | jq -r '.tag_name')
+          echo "evccver=$NEW_VER" >> $GITHUB_OUTPUT
+      - name: Check local repo release
+        id: localversion
+        run: |
+          CUR_VER="$(cat .evcclatest)"
+          echo "localver=$CUR_VER" >> $GITHUB_OUTPUT
+    outputs:
+      evccver: ${{ steps.evccversion.outputs.evccver }}
+      localver: ${{ steps.localversion.outputs.localver }}
+
+  update_docker:
+    runs-on: ubuntu-latest
+    needs: check_version
+    if: ${{ needs.check_version.outputs.evccver != needs.check_version.outputs.localver && needs.check_version.outputs.evccver != '' }}
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+        with:
+          ref: master
+          fetch-depth: 0
+      - name: Update Dockerfile
+        id: update
+        run: |
+          echo "${{ needs.check_version.outputs.evccver }}" > .evcclatest
+      - name: Commit and tag
+        uses: EndBug/add-and-commit@v9
+        with:
+          message: "Version ${{ needs.check_version.outputs.evccver }}"
+          add: ".evcclatest"

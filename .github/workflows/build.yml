@@ -1,0 +1,55 @@
+name: build
+
+on:
+  push:
+    paths:
+      - '.evcclatest'
+
+# For GitHub-hosted runners, each job in a workflow runs in a fresh instance of
+# a virtual environment.
+jobs:
+  build:
+    runs-on: default-linux
+    steps:
+     - name: Checkout repository
+       uses: actions/checkout@v4
+
+     - name: Get latest EVCC version
+       id: getversion
+       run: |
+         EVCCVERSION=(cat .evcclatest)
+         echo "evccversion=${EVCCVERSION}" >> $GITHUB_OUTPUT
+
+     - name: Checkout evcc repository
+       uses: actions/checkout@v4
+       with:
+         ref: ${{ steps.getversion.outputs.evccversion }}
+
+
+     - name: Log in to the Container registry
+       uses: docker/login-action@v3
+       with:
+         registry: ${{ secrets.REGISTRY }}
+         username: ${{ secrets.REGISTRY_USER }}
+         password: ${{ secrets.REGISTRY_PASS }}
+
+     - name: Extract metadata (tags, labels) for Docker
+       id: meta
+       uses: docker/metadata-action@v5
+       with:
+         images: ${{ secrets.REGISTRY }}/evcc
+
+     - name: Patch EVCC image
+       env:
+         TESLA_PROXY_HOST: ${{ secrets.TESLA_PROXY_HOST }}
+       run: |
+         sed -i "s/\%\%TESLAPROXY\%\%/${TESLA_PROXY_HOST}/g" evcc-tesla-proxy-nightly.patch
+         patch -p1 --ignore-whitespace < evcc-tesla-proxy-nightly.patch
+
+     - name: Build and push Docker image
+       uses: docker/build-push-action@v5
+       with:
+         context: evcc/
+         push: true
+         tags: ${{ steps.meta.outputs.tags }}
+         labels: ${{ steps.meta.outputs.labels }}
