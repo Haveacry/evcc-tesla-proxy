@@ -15,6 +15,7 @@ jobs:
        uses: actions/checkout@v4
 
      - name: Get latest EVCC version
+       id: getversion
        run: |
          EVCCVERSION=$(cat .evcclatest)
          echo "evccversion=${EVCCVERSION}" >> $GITHUB_OUTPUT
