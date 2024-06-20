@@ -11,7 +11,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: master
+          ref: main
           fetch-depth: 0
       - name: Check EVCC release
         id: evccversion
@@ -35,7 +35,7 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v4
         with:
-          ref: master
+          ref: main
           fetch-depth: 0
       - name: Update Dockerfile
         id: update
