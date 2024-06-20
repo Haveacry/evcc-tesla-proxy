@@ -30,6 +30,8 @@ jobs:
   update_versionfile:
     runs-on: ubuntu-latest
     needs: check_version
+    permissions:
+      contents: write
     if: ${{ needs.check_version.outputs.evccver != needs.check_version.outputs.localver && needs.check_version.outputs.evccver != '' }}
     steps:
       - name: Check out code
