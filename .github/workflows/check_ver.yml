@@ -39,6 +39,7 @@ jobs:
         with:
           ref: main
           fetch-depth: 0
+          token: ${{ secrets.PAT }}
       - name: Update Dockerfile
         id: update
         run: |
