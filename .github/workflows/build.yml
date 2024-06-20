@@ -24,6 +24,7 @@ jobs:
        uses: actions/checkout@v4
        with:
          ref: ${{ steps.getversion.outputs.evccversion }}
+         path: evcc
 
 
      - name: Log in to the Container registry
@@ -44,7 +45,8 @@ jobs:
          TESLA_PROXY_HOST: ${{ secrets.TESLA_PROXY_HOST }}
        run: |
          sed -i "s/\%\%TESLAPROXY\%\%/${TESLA_PROXY_HOST}/g" evcc-tesla-proxy-nightly.patch
-         patch -p1 --ignore-whitespace < evcc-tesla-proxy-nightly.patch
+         cd evcc
+         patch -p1 --ignore-whitespace < ../evcc-tesla-proxy-nightly.patch
 
      - name: Build and push Docker image
        uses: docker/build-push-action@v5
