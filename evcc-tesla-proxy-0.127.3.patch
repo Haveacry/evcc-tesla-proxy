@@ -38,9 +38,9 @@
 --- evcc/vehicle/tesla/controller.go.new        2024-04-07 10:09:18.578318067 +0800
 ***************
 *** 7,17 ****
-        "slices"
 
         "github.com/evcc-io/evcc/api"
+        "github.com/evcc-io/evcc/provider"
 !       "github.com/evcc-io/evcc/util/sponsor"
         "github.com/evcc-io/tesla-proxy-client"
   )
@@ -50,9 +50,9 @@
   type Controller struct {
         vehicle *tesla.Vehicle
 --- 7,17 ----
-        "slices"
 
         "github.com/evcc-io/evcc/api"
+        "github.com/evcc-io/evcc/provider"
 ! //    "github.com/evcc-io/evcc/util/sponsor"
         "github.com/evcc-io/tesla-proxy-client"
   )
