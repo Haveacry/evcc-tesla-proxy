@@ -57,7 +57,7 @@
         "github.com/evcc-io/tesla-proxy-client"
   )
 
-! const ProxyBaseUrl = "https://your.tesla.proxy"
+! const ProxyBaseUrl = "https://%%TESLAPROXY%%"
 
   type Controller struct {
         vehicle *tesla.Vehicle
