@@ -57,7 +57,7 @@
         "github.com/evcc-io/tesla-proxy-client"
   )
 
-! const ProxyBaseUrl = "https://%%TESLAPROXY%%"
+! const ProxyBaseUrl = "https://tesla.haveacry.com"
 
   type Controller struct {
         vehicle *tesla.Vehicle
@@ -103,4 +103,41 @@
 
         var err error
 
+*** evcc/templates/definition/charger/ocpp.yaml 2024-08-21 07:11:58.692632391 +0800
+--- evcc/templates/definition/charger/ocpp.yaml.new     2024-08-21 07:10:35.298927896 +0800
+***************
+*** 47,53 ****
+        * Local network connection
 
+        The specific configuration and the actual usable functionality depend on the charger model and its software.
+!   evcc: ["sponsorship"]
+  params:
+    - preset: ocpp
+    - name: autostart
+--- 47,53 ----
+        * Local network connection
+
+        The specific configuration and the actual usable functionality depend on the charger model and its software.
+! #  evcc: ["sponsorship"]
+  params:
+    - preset: ocpp
+    - name: autostart
+*** evcc/templates/definition/charger/ocpp-pulsarplus.yaml      2024-08-21 07:11:45.964372238 +0800
+--- evcc/templates/definition/charger/ocpp-pulsarplus.yaml.new  2024-08-21 07:10:48.775203340 +0800
+***************
+*** 19,25 ****
+        * URL: ws://[evcc-adresse]:8887/ (local network connection)
+        * Charge Point Identity: Custom value (e.g. serial number of charger) which is reused in configuration as *stationid*
+        * Password: leave empty
+!   evcc: ["sponsorship"]
+  params:
+    - preset: ocpp
+  render: |
+--- 19,25 ----
+        * URL: ws://[evcc-adresse]:8887/ (local network connection)
+        * Charge Point Identity: Custom value (e.g. serial number of charger) which is reused in configuration as *stationid*
+        * Password: leave empty
+! #  evcc: ["sponsorship"]
+  params:
+    - preset: ocpp
+  render: |
