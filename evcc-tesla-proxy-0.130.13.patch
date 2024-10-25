@@ -110,7 +110,7 @@
         * Local network connection
 
         The specific configuration and the actual usable functionality depend on the charger model and its software.
-!   evcc: ["sponsorship", "skiptest"]
+!   evcc: ["sponsorship"]
   params:
     - preset: ocpp
     - name: autostart
@@ -118,7 +118,7 @@
         * Local network connection
 
         The specific configuration and the actual usable functionality depend on the charger model and its software.
-! #  evcc: ["sponsorship", "skiptest"]
+! #  evcc: ["sponsorship"]
   params:
     - preset: ocpp
     - name: autostart
@@ -129,7 +129,7 @@
         * URL: ws://[evcc-adresse]:8887/ (local network connection)
         * Charge Point Identity: Custom value (e.g. serial number of charger) which is reused in configuration as *stationid*
         * Password: leave empty
-!   evcc: ["sponsorship", "skiptest"]
+!   evcc: ["sponsorship"]
   params:
     - preset: ocpp
   render: |
@@ -137,7 +137,7 @@
         * URL: ws://[evcc-adresse]:8887/ (local network connection)
         * Charge Point Identity: Custom value (e.g. serial number of charger) which is reused in configuration as *stationid*
         * Password: leave empty
-! #  evcc: ["sponsorship", "skiptest"]
+! #  evcc: ["sponsorship"]
   params:
     - preset: ocpp
   render: |
