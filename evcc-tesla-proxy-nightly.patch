@@ -18,7 +18,7 @@
   	"github.com/evcc-io/evcc/vehicle/tesla"
   	teslaclient "github.com/evcc-io/tesla-proxy-client"
 ***************
-*** 98,104 ****
+*** 100,106 ****
   	pc := request.NewClient(log)
   	pc.Transport = &transport.Decorator{
   		Decorator: transport.DecorateHeaders(map[string]string{
@@ -26,7 +26,7 @@
   		}),
   		Base: hc.Transport,
   	}
---- 98,104 ----
+--- 100,106 ----
   	pc := request.NewClient(log)
   	pc.Transport = &transport.Decorator{
   		Decorator: transport.DecorateHeaders(map[string]string{
@@ -37,7 +37,7 @@
 *** evcc/vehicle/tesla/controller.go    2024-04-07 10:07:05.283869937 +0800
 --- evcc/vehicle/tesla/controller.go.new        2024-04-07 10:09:18.578318067 +0800
 ***************
-*** 7,17 ****
+*** 5,15 ****
         "slices"
 
         "github.com/evcc-io/evcc/api"
@@ -49,7 +49,7 @@
 
   type Controller struct {
         vehicle *tesla.Vehicle
---- 7,17 ----
+--- 5,15 ----
         "slices"
 
         "github.com/evcc-io/evcc/api"
@@ -62,7 +62,7 @@
   type Controller struct {
         vehicle *tesla.Vehicle
 ***************
-*** 41,49 ****
+*** 28,36 ****
 
   // MaxCurrent implements the api.CurrentController interface
   func (v *Controller) MaxCurrent(current int64) error {
@@ -70,9 +70,9 @@
 !               return api.ErrSponsorRequired
 !       }
 
-        v.current = current
-        v.dataG.Reset()
---- 41,49 ----
+        return apiError(v.vehicle.SetChargingAmps(int(current)))
+  }
+--- 28,36 ----
 
   // MaxCurrent implements the api.CurrentController interface
   func (v *Controller) MaxCurrent(current int64) error {
@@ -80,10 +80,10 @@
 ! //            return api.ErrSponsorRequired
 ! //    }
 
-        v.current = current
-        v.dataG.Reset()
+        return apiError(v.vehicle.SetChargingAmps(int(current)))
+  }
 ***************
-*** 62,70 ****
+*** 39,47 ****
 
   // ChargeEnable implements the api.ChargeController interface
   func (v *Controller) ChargeEnable(enable bool) error {
@@ -93,7 +93,7 @@
 
         var err error
 
---- 62,70 ----
+--- 39,47 ----
 
   // ChargeEnable implements the api.ChargeController interface
   func (v *Controller) ChargeEnable(enable bool) error {
@@ -141,3 +141,43 @@
   params:
     - preset: ocpp
   render: |
+*** evcc/charger/ocpp.go        2024-10-25 21:14:49.229049614 +0800
+--- evcc/charger/ocpp.go.new    2024-10-26 06:37:36.858803828 +0800
+***************
+*** 28,34 ****
+        "github.com/evcc-io/evcc/charger/ocpp"
+        "github.com/evcc-io/evcc/core/loadpoint"
+        "github.com/evcc-io/evcc/util"
+!       "github.com/evcc-io/evcc/util/sponsor"
+        "github.com/lorenzodonini/ocpp-go/ocpp1.6/core"
+        "github.com/lorenzodonini/ocpp-go/ocpp1.6/types"
+        "github.com/samber/lo"
+--- 28,34 ----
+        "github.com/evcc-io/evcc/charger/ocpp"
+        "github.com/evcc-io/evcc/core/loadpoint"
+        "github.com/evcc-io/evcc/util"
+! //    "github.com/evcc-io/evcc/util/sponsor"
+        "github.com/lorenzodonini/ocpp-go/ocpp1.6/core"
+        "github.com/lorenzodonini/ocpp-go/ocpp1.6/types"
+        "github.com/samber/lo"
+***************
+*** 92,100 ****
+                return c, err
+        }
+
+!       if !sponsor.IsAuthorized() {
+!               return nil, api.ErrSponsorRequired
+!       }
+
+        var (
+                powerG, totalEnergyG, socG func() (float64, error)
+--- 92,100 ----
+                return c, err
+        }
+
+! //    if !sponsor.IsAuthorized() {
+! //            return nil, api.ErrSponsorRequired
+! //    }
+
+        var (
+                powerG, totalEnergyG, socG func() (float64, error)
