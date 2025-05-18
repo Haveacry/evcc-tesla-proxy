@@ -17,8 +17,8 @@
   params:
     - preset: ocpp
     - name: autostart
-*** evcc/templates/definition/charger/ocpp-wallbox.yaml      2024-08-21 07:11:45.964372238 +0800
---- evcc/templates/definition/charger/ocpp-wallbox.yaml.new  2024-08-21 07:10:48.775203340 +0800
+*** evcc/templates/definition/charger/ocpp-pulsarplus.yaml      2024-08-21 07:11:45.964372238 +0800
+--- evcc/templates/definition/charger/ocpp-pulsarplus.yaml.new  2024-08-21 07:10:48.775203340 +0800
 ***************
 *** 19,25 ****
         * URL: ws://[evcc-adresse]:8887/ (local network connection)
