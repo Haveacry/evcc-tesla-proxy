@@ -76,3 +76,42 @@
 
         var (
                 powerG, totalEnergyG, socG func() (float64, error)
+*** evcc/vehicle/tesla/identity.go      2025-07-23 13:28:53.302922733 +0800
+--- evcc/vehicle/tesla/identity.go.new  2025-07-23 13:29:47.871014649 +0800
+***************
+*** 14,30 ****
+        "golang.org/x/oauth2"
+  )
+
+! // https://auth.tesla.com/oauth2/v3/.well-known/openid-configuration
+
+  // OAuth2Config is the OAuth2 configuration for authenticating with the Tesla API.
+  func OAuth2Config(id, secret string) *oauth2.Config {
+        return &oauth2.Config{
+                ClientID:     id,
+                ClientSecret: secret,
+!               RedirectURL:  "https://auth.tesla.com/void/callback",
+                Endpoint: oauth2.Endpoint{
+!                       AuthURL:   "https://auth.tesla.com/en_us/oauth2/v3/authorize",
+!                       TokenURL:  "https://auth.tesla.com/oauth2/v3/token",
+                        AuthStyle: oauth2.AuthStyleInParams,
+                },
+                Scopes: []string{"openid", "email", "offline_access"},
+--- 14,30 ----
+        "golang.org/x/oauth2"
+  )
+
+! // https://fleet-auth.prd.vn.cloud.tesla.com/oauth2/v3/.well-known/openid-configuration
+
+  // OAuth2Config is the OAuth2 configuration for authenticating with the Tesla API.
+  func OAuth2Config(id, secret string) *oauth2.Config {
+        return &oauth2.Config{
+                ClientID:     id,
+                ClientSecret: secret,
+!               RedirectURL:  "https://fleet-auth.prd.vn.cloud.tesla.com/void/callback",
+                Endpoint: oauth2.Endpoint{
+!                       AuthURL:   "https://fleet-auth.prd.vn.cloud.tesla.com/en_us/oauth2/v3/authorize",
+!                       TokenURL:  "https://fleet-auth.prd.vn.cloud.tesla.com/oauth2/v3/token",
+                        AuthStyle: oauth2.AuthStyleInParams,
+                },
+                Scopes: []string{"openid", "email", "offline_access"},
