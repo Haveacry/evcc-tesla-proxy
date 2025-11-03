@@ -36,8 +36,8 @@
   params:
     - preset: ocpp
   render: |
-*** ocpp-wallbox-fw5.yaml       2025-11-03 09:57:23.332048323 +0800
---- ocpp-wallbox-fw5.yaml.new   2025-11-03 09:57:50.690620932 +0800
+*** evcc/templates/definition/charger/ocpp-wallbox-fw5.yaml       2025-11-03 09:57:23.332048323 +0800
+--- evcc/templates/definition/charger/ocpp-wallbox-fw5.yaml.new   2025-11-03 09:57:50.690620932 +0800
 ***************
 *** 31,37 ****
         * URL: ws://[evcc-adresse]:8887/ (local network connection)
