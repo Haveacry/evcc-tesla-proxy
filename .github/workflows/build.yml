@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - '.evcclatest'
+  workflow_dispatch:
 
 # For GitHub-hosted runners, each job in a workflow runs in a fresh instance of
 # a virtual environment.
