@@ -36,6 +36,25 @@
   params:
     - preset: ocpp
   render: |
+*** ocpp-wallbox-fw5.yaml       2025-11-03 09:57:23.332048323 +0800
+--- ocpp-wallbox-fw5.yaml.new   2025-11-03 09:57:50.690620932 +0800
+***************
+*** 31,37 ****
+        * URL: ws://[evcc-adresse]:8887/ (local network connection)
+        * Charge Point Identity: Custom value (e.g. serial number of charger) which is reused in configuration as *stationid*
+        * Password: leave empty
+!   evcc: ["sponsorship", "skiptest"]
+  params:
+    - preset: ocpp
+    - name: metervalues
+--- 31,37 ----
+        * URL: ws://[evcc-adresse]:8887/ (local network connection)
+        * Charge Point Identity: Custom value (e.g. serial number of charger) which is reused in configuration as *stationid*
+        * Password: leave empty
+! #  evcc: ["sponsorship", "skiptest"]
+  params:
+    - preset: ocpp
+    - name: metervalues
 *** evcc/charger/ocpp.go        2024-10-25 21:14:49.229049614 +0800
 --- evcc/charger/ocpp.go.new    2024-10-26 06:37:36.858803828 +0800
 ***************
