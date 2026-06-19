@@ -20,41 +20,41 @@
 *** evcc/templates/definition/charger/ocpp-wallbox.yaml      2024-08-21 07:11:45.964372238 +0800
 --- evcc/templates/definition/charger/ocpp-wallbox.yaml.new  2024-08-21 07:10:48.775203340 +0800
 ***************
-*** 32,38 ****
+*** 19,25 ****
         * URL: ws://[evcc-adresse]:8887/ (local network connection)
         * Charge Point Identity: Custom value (e.g. serial number of charger) which is reused in configuration as *stationid*
         * Password: leave empty
 !   evcc: ["sponsorship", "skiptest"]
-  caveats:
-    - description:
-        de: OCPP-Messwerte können fehlen oder unvollständig sein.
---- 32,38 ----
+  params:
+    - preset: ocpp
+  render: |
+--- 19,25 ----
         * URL: ws://[evcc-adresse]:8887/ (local network connection)
         * Charge Point Identity: Custom value (e.g. serial number of charger) which is reused in configuration as *stationid*
         * Password: leave empty
 ! #  evcc: ["sponsorship", "skiptest"]
-  caveats:
-    - description:
-        de: OCPP-Messwerte können fehlen oder unvollständig sein.
+  params:
+    - preset: ocpp
+  render: |
 *** evcc/templates/definition/charger/ocpp-wallbox-fw5.yaml       2025-11-03 09:57:23.332048323 +0800
 --- evcc/templates/definition/charger/ocpp-wallbox-fw5.yaml.new   2025-11-03 09:57:50.690620932 +0800
 ***************
-*** 32,38 ****
+*** 31,37 ****
         * URL: ws://[evcc-adresse]:8887/ (local network connection)
         * Charge Point Identity: Custom value (e.g. serial number of charger) which is reused in configuration as *stationid*
         * Password: leave empty
 !   evcc: ["sponsorship", "skiptest"]
-  caveats:
-    - description:
-        de: OCPP-Messwerte können fehlen oder unvollständig sein
---- 32,38 ----
+  params:
+    - preset: ocpp
+    - name: metervalues
+--- 31,37 ----
         * URL: ws://[evcc-adresse]:8887/ (local network connection)
         * Charge Point Identity: Custom value (e.g. serial number of charger) which is reused in configuration as *stationid*
         * Password: leave empty
 ! #  evcc: ["sponsorship", "skiptest"]
-  caveats:
-    - description:
-        de: OCPP-Messwerte können fehlen oder unvollständig sein
+  params:
+    - preset: ocpp
+    - name: metervalues
 *** evcc/charger/ocpp.go        2024-10-25 21:14:49.229049614 +0800
 --- evcc/charger/ocpp.go.new    2024-10-26 06:37:36.858803828 +0800
 ***************
