@@ -9,7 +9,7 @@ jobs:
   check_version:
     runs-on: default-linux
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           ref: main
           fetch-depth: 0
@@ -35,7 +35,7 @@ jobs:
     if: ${{ needs.check_version.outputs.evccver != needs.check_version.outputs.localver && needs.check_version.outputs.evccver != '' }}
     steps:
       - name: Check out code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           ref: main
           fetch-depth: 0
@@ -45,7 +45,7 @@ jobs:
         run: |
           echo "${{ needs.check_version.outputs.evccver }}" > .evcclatest
       - name: Commit and tag
-        uses: EndBug/add-and-commit@v9
+        uses: EndBug/add-and-commit@v10
         with:
           message: "Version ${{ needs.check_version.outputs.evccver }}"
           add: ".evcclatest"
