@@ -75,26 +75,26 @@
         "github.com/lorenzodonini/ocpp-go/ocpp1.6/types"
         "github.com/samber/lo"
 ***************
-*** 113,121 ****
+*** 92,100 ****
                 return c, err
         }
 
 !       if !sponsor.IsAuthorized() {
 !               return nil, api.ErrSponsorRequired
 !       }
-      	c.txProfile = cc.ChargingProfile == types.ChargingProfilePurposeTxProfile
 
-	if c.cp.HasMeasurement(types.MeasurandPowerActiveImport) {
---- 113,121 ----
+        var (
+                powerG, totalEnergyG, socG func() (float64, error)
+--- 92,100 ----
                 return c, err
         }
 
 ! //    if !sponsor.IsAuthorized() {
 ! //            return nil, api.ErrSponsorRequired
 ! //    }
-	c.txProfile = cc.ChargingProfile == types.ChargingProfilePurposeTxProfile
 
-	if c.cp.HasMeasurement(types.MeasurandPowerActiveImport) {
+        var (
+                powerG, totalEnergyG, socG func() (float64, error)
 *** evcc/vehicle/tesla/identity.go      2025-07-23 13:28:53.302922733 +0800
 --- evcc/vehicle/tesla/identity.go.new  2025-07-23 13:29:47.871014649 +0800
 ***************

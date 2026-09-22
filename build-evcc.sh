@@ -75,6 +75,9 @@ case ${EVCC_VERSION} in
 	0.203.6|0.20[4-9].*|0.21[01].*|0.30[0-8].*|0.309.0)
 		PATCHFILE=evcc-tesla-proxy-0.309.0.patch
 		;;
+	0.31[0-5].*)
+		PATCHFILE=evcc-tesla-proxy-0.315.2.patch
+		;;
         *)
                 PATCHFILE=evcc-tesla-proxy-nightly.patch
                 ;;
