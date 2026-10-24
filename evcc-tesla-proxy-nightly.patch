@@ -58,22 +58,22 @@
 *** evcc/charger/ocpp.go        2024-10-25 21:14:49.229049614 +0800
 --- evcc/charger/ocpp.go.new    2024-10-26 06:37:36.858803828 +0800
 ***************
-*** 28,34 ****
-        "github.com/evcc-io/evcc/charger/ocpp"
+*** 32,38 ****
         "github.com/evcc-io/evcc/core/loadpoint"
         "github.com/evcc-io/evcc/util"
+        "github.com/evcc-io/evcc/util/grid"
 !       "github.com/evcc-io/evcc/util/sponsor"
         "github.com/lorenzodonini/ocpp-go/ocpp1.6/core"
         "github.com/lorenzodonini/ocpp-go/ocpp1.6/types"
-        "github.com/samber/lo"
---- 28,34 ----
-        "github.com/evcc-io/evcc/charger/ocpp"
+  )
+--- 32,38 ----
         "github.com/evcc-io/evcc/core/loadpoint"
         "github.com/evcc-io/evcc/util"
+        "github.com/evcc-io/evcc/util/grid"
 ! //    "github.com/evcc-io/evcc/util/sponsor"
         "github.com/lorenzodonini/ocpp-go/ocpp1.6/core"
         "github.com/lorenzodonini/ocpp-go/ocpp1.6/types"
-        "github.com/samber/lo"
+  )
 ***************
 *** 113,121 ****
                 return c, err

@@ -1,0 +1,136 @@
+*** evcc/templates/definition/charger/ocpp.yaml 2024-08-21 07:11:58.692632391 +0800
+--- evcc/templates/definition/charger/ocpp.yaml.new     2024-08-21 07:10:35.298927896 +0800
+***************
+*** 47,53 ****
+        * Local network connection
+
+        The specific configuration and the actual usable functionality depend on the charger model and its software.
+!   evcc: ["sponsorship", "skiptest"]
+  params:
+    - preset: ocpp
+    - name: autostart
+--- 47,53 ----
+        * Local network connection
+
+        The specific configuration and the actual usable functionality depend on the charger model and its software.
+! #  evcc: ["sponsorship", "skiptest"]
+  params:
+    - preset: ocpp
+    - name: autostart
+*** evcc/templates/definition/charger/ocpp-wallbox.yaml      2024-08-21 07:11:45.964372238 +0800
+--- evcc/templates/definition/charger/ocpp-wallbox.yaml.new  2024-08-21 07:10:48.775203340 +0800
+***************
+*** 32,38 ****
+        * URL: ws://[evcc-adresse]:8887/ (local network connection)
+        * Charge Point Identity: Custom value (e.g. serial number of charger) which is reused in configuration as *stationid*
+        * Password: leave empty
+!   evcc: ["sponsorship", "skiptest"]
+  caveats:
+    - description:
+        de: OCPP-Messwerte können fehlen oder unvollständig sein.
+--- 32,38 ----
+        * URL: ws://[evcc-adresse]:8887/ (local network connection)
+        * Charge Point Identity: Custom value (e.g. serial number of charger) which is reused in configuration as *stationid*
+        * Password: leave empty
+! #  evcc: ["sponsorship", "skiptest"]
+  caveats:
+    - description:
+        de: OCPP-Messwerte können fehlen oder unvollständig sein.
+*** evcc/templates/definition/charger/ocpp-wallbox-fw5.yaml       2025-11-03 09:57:23.332048323 +0800
+--- evcc/templates/definition/charger/ocpp-wallbox-fw5.yaml.new   2025-11-03 09:57:50.690620932 +0800
+***************
+*** 32,38 ****
+        * URL: ws://[evcc-adresse]:8887/ (local network connection)
+        * Charge Point Identity: Custom value (e.g. serial number of charger) which is reused in configuration as *stationid*
+        * Password: leave empty
+!   evcc: ["sponsorship", "skiptest"]
+  caveats:
+    - description:
+        de: OCPP-Messwerte können fehlen oder unvollständig sein
+--- 32,38 ----
+        * URL: ws://[evcc-adresse]:8887/ (local network connection)
+        * Charge Point Identity: Custom value (e.g. serial number of charger) which is reused in configuration as *stationid*
+        * Password: leave empty
+! #  evcc: ["sponsorship", "skiptest"]
+  caveats:
+    - description:
+        de: OCPP-Messwerte können fehlen oder unvollständig sein
+*** evcc/charger/ocpp.go        2024-10-25 21:14:49.229049614 +0800
+--- evcc/charger/ocpp.go.new    2024-10-26 06:37:36.858803828 +0800
+***************
+*** 28,34 ****
+        "github.com/evcc-io/evcc/charger/ocpp"
+        "github.com/evcc-io/evcc/core/loadpoint"
+        "github.com/evcc-io/evcc/util"
+!       "github.com/evcc-io/evcc/util/sponsor"
+        "github.com/lorenzodonini/ocpp-go/ocpp1.6/core"
+        "github.com/lorenzodonini/ocpp-go/ocpp1.6/types"
+        "github.com/samber/lo"
+--- 28,34 ----
+        "github.com/evcc-io/evcc/charger/ocpp"
+        "github.com/evcc-io/evcc/core/loadpoint"
+        "github.com/evcc-io/evcc/util"
+! //    "github.com/evcc-io/evcc/util/sponsor"
+        "github.com/lorenzodonini/ocpp-go/ocpp1.6/core"
+        "github.com/lorenzodonini/ocpp-go/ocpp1.6/types"
+        "github.com/samber/lo"
+***************
+*** 113,121 ****
+                return c, err
+        }
+
+!       if !sponsor.IsAuthorized() {
+!               return nil, api.ErrSponsorRequired
+!       }
+      	c.txProfile = cc.ChargingProfile == types.ChargingProfilePurposeTxProfile
+
+	if c.cp.HasMeasurement(types.MeasurandPowerActiveImport) {
+--- 113,121 ----
+                return c, err
+        }
+
+! //    if !sponsor.IsAuthorized() {
+! //            return nil, api.ErrSponsorRequired
+! //    }
+	c.txProfile = cc.ChargingProfile == types.ChargingProfilePurposeTxProfile
+
+	if c.cp.HasMeasurement(types.MeasurandPowerActiveImport) {
+*** evcc/vehicle/tesla/identity.go      2025-07-23 13:28:53.302922733 +0800
+--- evcc/vehicle/tesla/identity.go.new  2025-07-23 13:29:47.871014649 +0800
+***************
+*** 14,30 ****
+        "golang.org/x/oauth2"
+  )
+
+! // https://auth.tesla.com/oauth2/v3/.well-known/openid-configuration
+
+  // OAuth2Config is the OAuth2 configuration for authenticating with the Tesla API.
+  func OAuth2Config(id, secret string) *oauth2.Config {
+        return &oauth2.Config{
+                ClientID:     id,
+                ClientSecret: secret,
+!               RedirectURL:  "https://auth.tesla.com/void/callback",
+                Endpoint: oauth2.Endpoint{
+!                       AuthURL:   "https://auth.tesla.com/en_us/oauth2/v3/authorize",
+!                       TokenURL:  "https://auth.tesla.com/oauth2/v3/token",
+                        AuthStyle: oauth2.AuthStyleInParams,
+                },
+                Scopes: []string{"openid", "email", "offline_access"},
+--- 14,30 ----
+        "golang.org/x/oauth2"
+  )
+
+! // https://fleet-auth.prd.vn.cloud.tesla.com/oauth2/v3/.well-known/openid-configuration
+
+  // OAuth2Config is the OAuth2 configuration for authenticating with the Tesla API.
+  func OAuth2Config(id, secret string) *oauth2.Config {
+        return &oauth2.Config{
+                ClientID:     id,
+                ClientSecret: secret,
+!               RedirectURL:  "https://fleet-auth.prd.vn.cloud.tesla.com/void/callback",
+                Endpoint: oauth2.Endpoint{
+!                       AuthURL:   "https://fleet-auth.prd.vn.cloud.tesla.com/en_us/oauth2/v3/authorize",
+!                       TokenURL:  "https://fleet-auth.prd.vn.cloud.tesla.com/oauth2/v3/token",
+                        AuthStyle: oauth2.AuthStyleInParams,
+                },
+                Scopes: []string{"openid", "email", "offline_access"},
